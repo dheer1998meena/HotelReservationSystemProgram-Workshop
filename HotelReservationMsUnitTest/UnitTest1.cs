@@ -13,7 +13,7 @@ namespace HotelReservationMsUnitTest
     public class UnitTest1
     {
         /// <summary>
-        /// Initiallizing the instamnnce object of HotelReservation Classs.
+        /// Initiallizing the instannce object of HotelReservation Classs.
         /// </summary>
         HotelReservation reservation = new HotelReservation();
 
