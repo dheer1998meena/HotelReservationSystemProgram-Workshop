@@ -39,6 +39,40 @@ namespace HotelReservationSystemProblem_Workshop
             hotelRecords.Add(hotel.hotelName, hotel);
         }
         /// <summary>
+        /// Creating method for Get rating.
+        /// </summary>
+        /// <param name="hotelName"></param>
+        /// <returns></returns>
+        public int GetRating(string hotelName)
+        {
+            foreach (var hotel in hotelRecords)
+            {
+                if (hotel.Key.Equals(hotelName))
+                {
+                    return hotel.Value.rating;
+                }
+
+            }
+            return 0;
+        }
+        /// <summary>
+        /// Creating method for get rates for reward customers.
+        /// </summary>
+        /// <param name="hotelName"></param>
+        /// <returns></returns>
+        public int GetRatesForRewardCustomers(string hotelName)
+        {
+            foreach (var hotel in hotelRecords)
+            {
+                if (hotel.Key.Equals(hotelName))
+                {
+                    return hotel.Value.weekdayRatesLoyalty;
+                }
+
+            }
+            return 0;
+        }
+        /// <summary>
         /// Creating a method for Calculating Cost of hotel.
         /// </summary>
         /// <param name="hotel"></param>
@@ -112,6 +146,34 @@ namespace HotelReservationSystemProblem_Workshop
             return cheapestHotels;
         }
         /// <summary>
+        /// Creating method for Find Best Hotel.
+        /// </summary>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <returns></returns>
+        public List<Hotel> FindBestHotels(DateTime startDate, DateTime endDate)
+        {
+            if (startDate > endDate)
+            {
+                Console.WriteLine("Start date cannot be greater than end date");
+                return null;
+            }
+            var cost = 0;
+            var BestHotels = new List<Hotel>();
+            foreach (var hotel in hotelRecords)
+            {
+
+                cost = Math.Max(cost, CalculateCost(hotel.Value, startDate, endDate));
+
+            }
+            foreach (var hotel in hotelRecords)
+            {
+                if (CalculateCost(hotel.Value, startDate, endDate) == cost)
+                    BestHotels.Add(hotel.Value);
+            }
+            return BestHotels;
+        }
+        /// <summary>
         /// Lists ratings of all the hotels
         /// </summary>
         /// <returns>Integer List of ratings</returns>
@@ -142,6 +204,19 @@ namespace HotelReservationSystemProblem_Workshop
                 if (hotel.rating == maxRating)
                     cheapestBestRatedHotels.Add(hotel);
             return cheapestBestRatedHotels;
+        }
+
+        public List<Hotel> FindBestRatedHotel(DateTime startDate, DateTime endDate)
+        {
+            var BestHotels = FindBestHotels(startDate, endDate);
+            List<Hotel> BestRatedHotels = new List<Hotel>();
+            var maxRating = 0;
+            foreach (var hotel in BestHotels)
+                maxRating = Math.Max(maxRating, hotel.rating);
+            foreach (var hotel in BestHotels)
+                if (hotel.rating == maxRating)
+                    BestRatedHotels.Add(hotel);
+            return BestRatedHotels;
         }
     }
 }

@@ -21,9 +21,9 @@ namespace HotelReservationMsUnitTest
         /// <summary>
         /// Creating instance object of hotel class and store the record  of hotel.
         /// </summary>
-        Hotel hotel1 = new Hotel { hotelName = "Lakewood", weekdayRatesForRegular = 110, weekendRatesForRegular = 90, rating=3 };
-        Hotel hotel2 = new Hotel { hotelName = "Bridgewood", weekdayRatesForRegular = 160, weekendRatesForRegular = 50, rating=4 };
-        Hotel hotel3 = new Hotel { hotelName = "Ridgewood", weekdayRatesForRegular = 220, weekendRatesForRegular = 150,rating=5};
+        Hotel hotel1 = new Hotel { hotelName = "Lakewood", weekdayRatesForRegular = 110, weekendRatesForRegular = 90, weekdayRatesLoyalty = 80, weekendRatesLoyalty = 80, rating =3 };
+        Hotel hotel2 = new Hotel { hotelName = "Bridgewood", weekdayRatesForRegular = 160, weekendRatesForRegular = 50, weekdayRatesLoyalty = 110, weekendRatesLoyalty = 50, rating =4 };
+        Hotel hotel3 = new Hotel { hotelName = "Ridgewood", weekdayRatesForRegular = 220, weekendRatesForRegular = 150, weekdayRatesLoyalty = 100, weekendRatesLoyalty = 40,rating =5};
         
 
         /// <summary>
@@ -109,6 +109,46 @@ namespace HotelReservationMsUnitTest
             CollectionAssert.AreEqual(ratingList, expectedRatingList);
 
         }
-       
+        /// <summary>
+        /// UC6 Test case to check for Given the list Cheapest Best Rated Hotel
+        /// </summary>
+        [TestMethod]
+        public void CheckForCheapestBestRatedHotel()
+        {
+            reservation.AddHotelRecords(hotel1);
+            reservation.AddHotelRecords(hotel2);
+            reservation.AddHotelRecords(hotel3);
+            var startDate = Convert.ToDateTime("11Sep2020");
+            var endDate = Convert.ToDateTime("12Sep2020");
+            List<Hotel> list = reservation.FindCheapestBestRatedHotel(startDate, endDate);
+            var expected1 = "Bridgewood";
+            Assert.AreEqual(expected1, list[1].hotelName);
+
+
+        }
+        /// <summary>
+        /// UC7 Test case to check for Given the list Best Rated Hotel
+        /// </summary>
+        [TestMethod]
+        public void FindTheBestRatedHoted()
+        {
+            var startDate = Convert.ToDateTime("11Sep2020");
+            var endDate = Convert.ToDateTime("12Sep2020");
+            List<Hotel> list = reservation.FindBestRatedHotel(startDate, endDate);
+            var expected1 = "Ridgewood";
+            Assert.AreEqual(expected1, list[list.Count - 1].hotelName);
+        }
+        /// <summary>
+        /// UC9 Test case to check for Given the list Special Rates For Reward Customer.
+        /// </summary>
+        [TestMethod]
+        public void CheckForSpecialRatesForRewardCustomer()
+        {
+            int weekdayRate = reservation.GetRatesForRewardCustomers("Lakewood");
+            int expected = 80;
+            Assert.AreEqual(expected, weekdayRate);
+
+        }
+
     }
 }

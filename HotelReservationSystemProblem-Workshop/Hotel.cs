@@ -22,5 +22,7 @@ namespace HotelReservationSystemProblem_Workshop
         public int weekdayRatesForRegular { get; set; }
         public int weekendRatesForRegular { get; set; }
         public int rating { get; set; }
+        public int weekdayRatesLoyalty { get; set; }
+        public int weekendRatesLoyalty { get; set; }
     }
 }
