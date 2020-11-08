@@ -20,6 +20,11 @@ namespace HotelReservationSystemProblem_Workshop
             hotelRecords = new Dictionary<string, Hotel>();
         }
         /// <summary>
+        /// Creating List of Hotels of type Hotel.
+        /// </summary>
+        List<Hotel> hotelList = new List<Hotel>();
+
+        /// <summary>
         /// Add Hotel with name and rates for regular customer.
         /// </summary>
         /// <param name="hotel"></param>
@@ -77,6 +82,34 @@ namespace HotelReservationSystemProblem_Workshop
                     lowBudgetHotel = hotel.Value;
             }
             return lowBudgetHotel;
+        }
+        /// <summary>
+        /// Creating method for Find Cheapest hotel based on weekday and weekrates.
+        /// </summary>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <returns></returns>
+        public List<Hotel> FindCheapestHotels(DateTime startDate, DateTime endDate)
+        {
+            if (startDate > endDate)
+            {
+                Console.WriteLine("Start date cannot be greater than end date");
+                return null;
+            }
+            var cost = Int32.MaxValue;
+            var cheapestHotels = new List<Hotel>();
+            foreach (var hotel in hotelRecords)
+            {
+                var temp = cost;
+                cost = Math.Min(cost, CalculateCost(hotel.Value, startDate, endDate));
+
+            }
+            foreach (var hotel in hotelRecords)
+            {
+                if (CalculateCost(hotel.Value, startDate, endDate) == cost)
+                    cheapestHotels.Add(hotel.Value);
+            }
+            return cheapestHotels;
         }
     }
 }
