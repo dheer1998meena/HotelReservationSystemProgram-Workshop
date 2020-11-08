@@ -132,6 +132,9 @@ namespace HotelReservationMsUnitTest
         [TestMethod]
         public void FindTheBestRatedHoted()
         {
+            reservation.AddHotelRecords(hotel1);
+            reservation.AddHotelRecords(hotel2);
+            reservation.AddHotelRecords(hotel3);
             var startDate = Convert.ToDateTime("11Sep2020");
             var endDate = Convert.ToDateTime("12Sep2020");
             List<Hotel> list = reservation.FindBestRatedHotel(startDate, endDate);
@@ -144,6 +147,9 @@ namespace HotelReservationMsUnitTest
         [TestMethod]
         public void CheckForSpecialRatesForRewardCustomer()
         {
+            reservation.AddHotelRecords(hotel1);
+            reservation.AddHotelRecords(hotel2);
+            reservation.AddHotelRecords(hotel3);
             int weekdayRate = reservation.GetRatesForRewardCustomers("Lakewood");
             int expected = 80;
             Assert.AreEqual(expected, weekdayRate);
