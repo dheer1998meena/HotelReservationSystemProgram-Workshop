@@ -120,7 +120,7 @@ namespace HotelReservationMsUnitTest
             reservation.AddHotelRecords(hotel3);
             var startDate = Convert.ToDateTime("11Sep2020");
             var endDate = Convert.ToDateTime("12Sep2020");
-            List<Hotel> list = reservation.FindCheapestBestRatedHotel(startDate, endDate);
+            List<Hotel> list = reservation.FindBestRatedHotel(startDate, endDate);
             var expected1 = "Bridgewood";
             Assert.AreEqual(expected1, list[1].hotelName);
 
@@ -154,6 +154,23 @@ namespace HotelReservationMsUnitTest
             int expected = 80;
             Assert.AreEqual(expected, weekdayRate);
 
+        }
+        /// <summary>
+        /// UC9 Test case to check for Given the list Find Cheapest Best Rated Hotels For Reward Customer.
+        /// </summary>
+        [TestMethod]
+        public void FindCheapestBestRatedHotelsForRewardCustomer()
+        {
+            reservation.AddHotelRecords(hotel1);
+            reservation.AddHotelRecords(hotel2);
+            reservation.AddHotelRecords(hotel3);
+            var startDate = Convert.ToDateTime("11Sep2020");
+            var endDate = Convert.ToDateTime("12Sep2020");
+
+            var expected = reservation.hotelRecords["Ridgewood"];
+            var result = reservation.FindCheapestBestRatedHotelRewardCustomer(startDate, endDate, HotelReservation.CustomerType.Reward);
+
+            Assert.AreEqual(result, expected);
         }
 
     }

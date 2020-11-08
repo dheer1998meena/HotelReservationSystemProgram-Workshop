@@ -173,6 +173,7 @@ namespace HotelReservationSystemProblem_Workshop
             }
             return BestHotels;
         }
+
         /// <summary>
         /// Lists ratings of all the hotels
         /// </summary>
@@ -193,7 +194,7 @@ namespace HotelReservationSystemProblem_Workshop
         /// <param name="startDate"></param>
         /// <param name="endDate"></param>
         /// <returns></returns>
-        public List<Hotel> FindCheapestBestRatedHotel(DateTime startDate, DateTime endDate)
+        public List<Hotel> FindCheapestBestRatedHotelRewardCustomer(DateTime startDate, DateTime endDate, CustomerType reward)
         {
             var cheapestHotels = FindCheapestHotels(startDate, endDate);
             var cheapestBestRatedHotels = new List<Hotel>();
@@ -205,6 +206,12 @@ namespace HotelReservationSystemProblem_Workshop
                     cheapestBestRatedHotels.Add(hotel);
             return cheapestBestRatedHotels;
         }
+        /// <summary>
+        /// Created method for find best rated hotel.
+        /// </summary>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <returns></returns>
 
         public List<Hotel> FindBestRatedHotel(DateTime startDate, DateTime endDate)
         {
@@ -217,6 +224,15 @@ namespace HotelReservationSystemProblem_Workshop
                 if (hotel.rating == maxRating)
                     BestRatedHotels.Add(hotel);
             return BestRatedHotels;
+        }
+        public enum CustomerType { Regular, Reward };
+        public static CustomerType GetCustomerType(CustomerType customer)
+        {
+            Console.Write("Enter the type of Customer : ");
+            var cusType = Console.ReadLine().ToLower();
+            if (cusType != "regular" && cusType != "reward")
+                throw new HotelException(HotelException.ExceptionType.INVALID_CUSTOMER_TYPE, "Invalid Customer Type Entered");
+            return cusType == "regular" ? CustomerType.Regular : CustomerType.Reward;
         }
     }
 }
