@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AddressBook.cs" company="Bridgelabz">
+// <copyright file="HotelReservation.cs" company="Bridgelabz">
 //   Copyright © 2018 Company
 // </copyright>
 // <creator Name="Dheer Singh Meena"/>
@@ -123,6 +123,25 @@ namespace HotelReservationSystemProblem_Workshop
                 ratingList.Add(hotel.rating);
             }
             return ratingList;
+        }
+        /// <summary>
+        /// Creating Method to find the cheapest hotels in the list as per the date range.
+        /// Does considering rating.
+        /// </summary>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <returns></returns>
+        public List<Hotel> FindCheapestBestRatedHotel(DateTime startDate, DateTime endDate)
+        {
+            var cheapestHotels = FindCheapestHotels(startDate, endDate);
+            var cheapestBestRatedHotels = new List<Hotel>();
+            var maxRating = 0;
+            foreach (var hotel in cheapestHotels)
+                maxRating = Math.Max(maxRating, hotel.rating);
+            foreach (var hotel in cheapestHotels)
+                if (hotel.rating == maxRating)
+                    cheapestBestRatedHotels.Add(hotel);
+            return cheapestBestRatedHotels;
         }
     }
 }

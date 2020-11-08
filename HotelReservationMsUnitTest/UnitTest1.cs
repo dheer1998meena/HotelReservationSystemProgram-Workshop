@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AddressBook.cs" company="Bridgelabz">
+// <copyright file="HotelReservationMsUnitTest" company="Bridgelabz">
 //   Copyright © 2018 Company
 // </copyright>
 // <creator Name="Dheer Singh Meena"/>
@@ -107,6 +107,24 @@ namespace HotelReservationMsUnitTest
             List<int> expectedRatingList = new List<int>() { 3, 4, 5 };
 
             CollectionAssert.AreEqual(ratingList, expectedRatingList);
+
+        }
+        /// <summary>
+        /// UC6 Test case to check for correct output list of cheap hotels for weekdays And weekends 
+        /// date range includes both weekdays and weekends
+        /// should return results considering ratings as well
+        /// </summary>
+        [TestMethod]
+        public void GivenStartandEndDates_ShouldReturn_CheapestHotelForWeekendandWeekdaysRATINGS()
+        {
+            reservation.AddHotelRecords(hotel1);
+            reservation.AddHotelRecords(hotel2);
+            var startDate = Convert.ToDateTime("11Sep2020");
+            var endDate = Convert.ToDateTime("12Sep2020");
+
+            var expected = reservation.hotelRecords["Lakewood"];
+            var result = reservation.FindCheapestHotel(startDate, endDate);
+            Assert.AreEqual(expected, result);
 
         }
     }
