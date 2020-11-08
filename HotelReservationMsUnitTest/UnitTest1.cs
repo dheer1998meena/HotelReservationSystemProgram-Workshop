@@ -7,6 +7,7 @@
 using HotelReservationSystemProblem_Workshop;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Generic;
 
 namespace HotelReservationMsUnitTest
 {
@@ -20,9 +21,9 @@ namespace HotelReservationMsUnitTest
         /// <summary>
         /// Creating instance object of hotel class and store the record  of hotel.
         /// </summary>
-        Hotel hotel1 = new Hotel { hotelName = "Lakewood", weekdayRatesForRegular = 110, weekendRatesForRegular = 90 };
-        Hotel hotel2 = new Hotel { hotelName = "Bridgewood", weekdayRatesForRegular = 160, weekendRatesForRegular = 50 };
-        Hotel hotel3 = new Hotel { hotelName = "Ridgewood", weekdayRatesForRegular = 220, weekendRatesForRegular = 150 };
+        Hotel hotel1 = new Hotel { hotelName = "Lakewood", weekdayRatesForRegular = 110, weekendRatesForRegular = 90, rating=3 };
+        Hotel hotel2 = new Hotel { hotelName = "Bridgewood", weekdayRatesForRegular = 160, weekendRatesForRegular = 50, rating=4 };
+        Hotel hotel3 = new Hotel { hotelName = "Ridgewood", weekdayRatesForRegular = 220, weekendRatesForRegular = 150,rating=5};
         
 
         /// <summary>
@@ -89,6 +90,23 @@ namespace HotelReservationMsUnitTest
             var expected = reservation.hotelRecords["Lakewood"];
             var result = reservation.FindCheapestHotel(startDate, endDate);
             Assert.AreEqual(expected, result);
+
+        }
+        /// <summary>
+        /// UC5 Test case to check for Given the list of hotel should return their rating.
+        /// </summary>
+        [TestMethod]
+        public void GiventheListofHotels_ShouldReturn_TheirRatings()
+        {
+            reservation.AddHotelRecords(hotel1);
+            reservation.AddHotelRecords(hotel2);
+            reservation.AddHotelRecords(hotel3);
+            List<int> ratingList = new List<int>();
+            ratingList = reservation.RetrieveHotelRatings();
+
+            List<int> expectedRatingList = new List<int>() { 3, 4, 5 };
+
+            CollectionAssert.AreEqual(ratingList, expectedRatingList);
 
         }
     }
