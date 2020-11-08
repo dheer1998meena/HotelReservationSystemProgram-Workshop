@@ -72,30 +72,7 @@ namespace HotelReservationSystemProblem_Workshop
             {
                 var startDate = Convert.ToDateTime(dates[0]);
                 var endDate = Convert.ToDateTime(dates[1]);
-                var cheapestHotel = hotelReservation.FindCheapestBestRatedHotel(startDate, endDate);
-                foreach (Hotel h in cheapestHotel)
-                {
-                    var cost = hotelReservation.CalculateCost(h, startDate, endDate);
-                    Console.WriteLine("Hotel : {0}, Rating: {1}, Total Cost : {2}", h.hotelName, h.rating, cost);
-                }
-            }
-            catch
-            {
-                Console.Write("Enter the correct date range \n");
-                FindCheapest(hotelReservation);
-            }
-        }
-        public static void FindBest(HotelReservation hotelReservation)
-        {
-            Console.WriteLine("Cheapest Best Rated Hotel");
-            Console.Write("Enter the date range : ");
-            var input = Console.ReadLine();
-            string[] dates = input.Split(',');
-            try
-            {
-                var startDate = Convert.ToDateTime(dates[0]);
-                var endDate = Convert.ToDateTime(dates[1]);
-                var cheapestHotel = hotelReservation.FindCheapestBestRatedHotel(startDate, endDate);
+                var cheapestHotel = hotelReservation.FindBestRatedHotel(startDate, endDate);
                 foreach (Hotel h in cheapestHotel)
                 {
                     var cost = hotelReservation.CalculateCost(h, startDate, endDate);
