@@ -111,5 +111,18 @@ namespace HotelReservationSystemProblem_Workshop
             }
             return cheapestHotels;
         }
+        /// <summary>
+        /// Lists ratings of all the hotels
+        /// </summary>
+        /// <returns>Integer List of ratings</returns>
+        public List<int> RetrieveHotelRatings()
+        {
+            List<int> ratingList = new List<int>();
+            foreach (var hotel in hotelList)
+            {
+                ratingList.Add(hotel.rating);
+            }
+            return ratingList;
+        }
     }
 }
