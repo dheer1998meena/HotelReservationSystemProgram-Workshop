@@ -79,7 +79,7 @@ namespace HotelReservationSystemProblem_Workshop
         /// <param name="startDate"></param>
         /// <param name="endDate"></param>
         /// <returns></returns>
-        public int CalculateCost(Hotel hotel, DateTime startDate, DateTime endDate)
+        public int CalculateCost(Hotel hotel, DateTime startDate, DateTime endDate,CustomerType customerType)
         {
             var cost = 0;
             var weekdayRate = hotel.weekdayRatesForRegular;
@@ -99,7 +99,7 @@ namespace HotelReservationSystemProblem_Workshop
         /// <param name="startDate"></param>
         /// <param name="endDate"></param>
         /// <returns></returns>
-        public Hotel FindCheapestHotel(DateTime startDate, DateTime endDate)
+        public Hotel FindCheapestHotel(DateTime startDate, DateTime endDate,CustomerType customerType)
         {
             if (startDate > endDate)
             {
@@ -111,7 +111,7 @@ namespace HotelReservationSystemProblem_Workshop
             foreach (var hotel in hotelRecords)
             {
                 var temp = cost;
-                cost = Math.Min(cost, CalculateCost(hotel.Value, startDate, endDate));
+                cost = Math.Min(cost, CalculateCost(hotel.Value, startDate, endDate,customerType));
                 if (temp != cost)
                     lowBudgetHotel = hotel.Value;
             }
@@ -123,7 +123,7 @@ namespace HotelReservationSystemProblem_Workshop
         /// <param name="startDate"></param>
         /// <param name="endDate"></param>
         /// <returns></returns>
-        public List<Hotel> FindCheapestHotels(DateTime startDate, DateTime endDate)
+        public List<Hotel> FindCheapestHotels(DateTime startDate, DateTime endDate,CustomerType customerType)
         {
             if (startDate > endDate)
             {
@@ -135,12 +135,12 @@ namespace HotelReservationSystemProblem_Workshop
             foreach (var hotel in hotelRecords)
             {
                 var temp = cost;
-                cost = Math.Min(cost, CalculateCost(hotel.Value, startDate, endDate));
+                cost = Math.Min(cost, CalculateCost(hotel.Value, startDate, endDate,customerType));
 
             }
             foreach (var hotel in hotelRecords)
             {
-                if (CalculateCost(hotel.Value, startDate, endDate) == cost)
+                if (CalculateCost(hotel.Value, startDate, endDate,customerType) == cost)
                     cheapestHotels.Add(hotel.Value);
             }
             return cheapestHotels;
@@ -151,7 +151,7 @@ namespace HotelReservationSystemProblem_Workshop
         /// <param name="startDate"></param>
         /// <param name="endDate"></param>
         /// <returns></returns>
-        public List<Hotel> FindBestHotels(DateTime startDate, DateTime endDate)
+        public List<Hotel> FindBestHotels(DateTime startDate, DateTime endDate,CustomerType customerType)
         {
             if (startDate > endDate)
             {
@@ -163,12 +163,12 @@ namespace HotelReservationSystemProblem_Workshop
             foreach (var hotel in hotelRecords)
             {
 
-                cost = Math.Max(cost, CalculateCost(hotel.Value, startDate, endDate));
+                cost = Math.Max(cost, CalculateCost(hotel.Value, startDate, endDate,customerType));
 
             }
             foreach (var hotel in hotelRecords)
             {
-                if (CalculateCost(hotel.Value, startDate, endDate) == cost)
+                if (CalculateCost(hotel.Value, startDate, endDate,customerType) == cost)
                     BestHotels.Add(hotel.Value);
             }
             return BestHotels;
@@ -194,17 +194,23 @@ namespace HotelReservationSystemProblem_Workshop
         /// <param name="startDate"></param>
         /// <param name="endDate"></param>
         /// <returns></returns>
-        public List<Hotel> FindCheapestBestRatedHotelRewardCustomer(DateTime startDate, DateTime endDate, CustomerType reward)
+        public List<Hotel> FindCheapestBestRatedHotelRewardCustomer(DateTime startDate, DateTime endDate, CustomerType customerType)
         {
-            var cheapestHotels = FindCheapestHotels(startDate, endDate);
-            var cheapestBestRatedHotels = new List<Hotel>();
-            var maxRating = 0;
-            foreach (var hotel in cheapestHotels)
-                maxRating = Math.Max(maxRating, hotel.rating);
-            foreach (var hotel in cheapestHotels)
-                if (hotel.rating == maxRating)
-                    cheapestBestRatedHotels.Add(hotel);
-            return cheapestBestRatedHotels;
+            try
+            {
+                var cheapestHotels = FindCheapestHotels(startDate, endDate,customerType);
+                var cheapestBestRatedHotels = new List<Hotel>();
+                var maxRating = 0;
+                foreach (var hotel in cheapestHotels)
+                    maxRating = Math.Max(maxRating, hotel.rating);
+                foreach (var hotel in cheapestHotels)
+                    if (hotel.rating == maxRating)
+                        cheapestBestRatedHotels.Add(hotel);
+                return cheapestBestRatedHotels;
+            }catch(HotelException ex)
+            {
+                throw new HotelException(HotelException.ExceptionType.INVALID_CUSTOMER_TYPE, "Invalid Customer Type");
+            }
         }
         /// <summary>
         /// Created method for find best rated hotel.
@@ -213,9 +219,9 @@ namespace HotelReservationSystemProblem_Workshop
         /// <param name="endDate"></param>
         /// <returns></returns>
 
-        public List<Hotel> FindBestRatedHotel(DateTime startDate, DateTime endDate)
+        public List<Hotel> FindBestRatedHotel(DateTime startDate, DateTime endDate,CustomerType customerType)
         {
-            var BestHotels = FindBestHotels(startDate, endDate);
+            var BestHotels = FindBestHotels(startDate, endDate,customerType);
             List<Hotel> BestRatedHotels = new List<Hotel>();
             var maxRating = 0;
             foreach (var hotel in BestHotels)
