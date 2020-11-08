@@ -21,7 +21,7 @@ namespace HotelReservationMsUnitTest
         /// Creating instance object of hotel class and store the record  of hotel.
         /// </summary>
         Hotel hotel1 = new Hotel { hotelName = "Lakewood", weekdayRatesForRegular = 110, weekendRatesForRegular = 90 };
-        Hotel hotel2 = new Hotel { hotelName = "Bridgewood", weekdayRatesForRegular = 160, weekendRatesForRegular = 60 };
+        Hotel hotel2 = new Hotel { hotelName = "Bridgewood", weekdayRatesForRegular = 160, weekendRatesForRegular = 50 };
         Hotel hotel3 = new Hotel { hotelName = "Ridgewood", weekdayRatesForRegular = 220, weekendRatesForRegular = 150 };
         
 
@@ -58,6 +58,22 @@ namespace HotelReservationMsUnitTest
             var expected = reservation.hotelRecords["Lakewood"];
             //Assert
             Assert.AreEqual(expected, cheapestHotel);
+        }
+        /// <summary>
+        /// UC3 Test case to check for correct output list of cheap hotels for weekdays & weekends.
+        /// </summary>
+        [TestMethod]
+        public void GivenStartandEndDates_ShouldReturn_CheapestHotelForWeekendandWeekdays()
+        {
+            reservation.AddHotelRecords(hotel1);
+            reservation.AddHotelRecords(hotel2);
+            reservation.AddHotelRecords(hotel3);
+            var startDate = Convert.ToDateTime("11June2020");
+            var endDate = Convert.ToDateTime("12June2020");
+            Hotel cheapestHotel = reservation.FindCheapestHotel(startDate, endDate);
+            var expected = reservation.hotelRecords["Lakewood"];
+            Assert.AreEqual(expected, cheapestHotel);
+
         }
     }
 }

@@ -55,7 +55,7 @@ namespace HotelReservationSystemProblem_Workshop
             return cost;
         }
         /// <summary>
-        /// Creating method for find the cheapest for given Date Range. 
+        /// Creating method for find the cheapest Hotel for given Date Range. 
         /// </summary>
         /// <param name="startDate"></param>
         /// <param name="endDate"></param>
