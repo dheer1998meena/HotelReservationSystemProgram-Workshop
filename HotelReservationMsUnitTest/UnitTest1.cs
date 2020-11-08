@@ -55,7 +55,7 @@ namespace HotelReservationMsUnitTest
             reservation.AddHotelRecords(hotel3);
             var startDate = Convert.ToDateTime("10Sep2020");
             var endDate = Convert.ToDateTime("11Sep2020");
-            Hotel cheapestHotel = reservation.FindCheapestHotel(startDate, endDate);
+            Hotel cheapestHotel = reservation.FindCheapestHotel(startDate, endDate, HotelReservation.CustomerType.Regular);
             var expected = reservation.hotelRecords["Lakewood"];
             //Assert
             Assert.AreEqual(expected, cheapestHotel);
@@ -71,7 +71,7 @@ namespace HotelReservationMsUnitTest
             reservation.AddHotelRecords(hotel3);
             var startDate = Convert.ToDateTime("11June2020");
             var endDate = Convert.ToDateTime("12June2020");
-            Hotel cheapestHotel = reservation.FindCheapestHotel(startDate, endDate);
+            Hotel cheapestHotel = reservation.FindCheapestHotel(startDate, endDate, HotelReservation.CustomerType.Regular);
             var expected = reservation.hotelRecords["Lakewood"];
             Assert.AreEqual(expected, cheapestHotel);
 
@@ -88,8 +88,8 @@ namespace HotelReservationMsUnitTest
             var endDate = Convert.ToDateTime("12Sep2020");
 
             var expected = reservation.hotelRecords["Lakewood"];
-            var result = reservation.FindCheapestHotel(startDate, endDate);
-            Assert.AreEqual(expected, result);
+            Hotel cheapestHotel = reservation.FindCheapestHotel(startDate, endDate, HotelReservation.CustomerType.Regular);
+            Assert.AreEqual(expected, cheapestHotel);
 
         }
         /// <summary>
@@ -120,7 +120,7 @@ namespace HotelReservationMsUnitTest
             reservation.AddHotelRecords(hotel3);
             var startDate = Convert.ToDateTime("11Sep2020");
             var endDate = Convert.ToDateTime("12Sep2020");
-            List<Hotel> list = reservation.FindBestRatedHotel(startDate, endDate);
+            List<Hotel> list = reservation.FindBestRatedHotel(startDate, endDate,HotelReservation.CustomerType.Regular);
             var expected1 = "Bridgewood";
             Assert.AreEqual(expected1, list[1].hotelName);
 
@@ -137,7 +137,7 @@ namespace HotelReservationMsUnitTest
             reservation.AddHotelRecords(hotel3);
             var startDate = Convert.ToDateTime("11Sep2020");
             var endDate = Convert.ToDateTime("12Sep2020");
-            List<Hotel> list = reservation.FindBestRatedHotel(startDate, endDate);
+            List<Hotel> list = reservation.FindBestRatedHotel(startDate, endDate,HotelReservation.CustomerType.Regular);
             var expected1 = "Ridgewood";
             Assert.AreEqual(expected1, list[list.Count - 1].hotelName);
         }
@@ -171,7 +171,50 @@ namespace HotelReservationMsUnitTest
             var result = reservation.FindCheapestBestRatedHotelRewardCustomer(startDate, endDate, HotelReservation.CustomerType.Reward);
 
             Assert.AreEqual(result, expected);
+
         }
+        /// <summary>
+        /// UC10 Test case to check forFind Cheapest Best Rated Hotels For Reward Customer Type
+        /// </summary>
+        [TestMethod]
+        public void FindCheapestBestRatedHotelsForRewardCustomerType()
+        {
+            var startDate = Convert.ToDateTime("11Sep2020");
+            var endDate = Convert.ToDateTime("12Sep2020");
+
+            var expected = reservation.hotelRecords["Ridgewood"];
+            var result = reservation.FindCheapestBestRatedHotel(startDate, endDate, HotelReservation.CustomerType.Reward);
+
+            Assert.AreEqual(result, expected);
+        }
+        /// <summary>
+        /// UC11 Test case to check for  Throw Exception Given Invalid CustomerType
+        /// </summary>
+        [TestMethod]
+        public void ThrowException_GivenInvalidCustomerType()
+        {
+            reservation.AddHotelRecords(hotel1);
+            reservation.AddHotelRecords(hotel2);
+            reservation.AddHotelRecords(hotel3);
+
+            try
+            {
+                var startDate = Convert.ToDateTime("11Sep2020");
+                var endDate = Convert.ToDateTime("12Sep2020");
+                var expected = reservation.hotelRecords["Ridgewood"];
+
+                var cusType = HotelReservation.GetCustomerType();
+                var result = reservation.FindCheapestBestRatedHotel(startDate, endDate, cusType);
+
+                Assert.AreEqual(result, expected);
+            }
+            catch (HotelException e)
+            {
+                Assert.AreEqual(e.Message, "Invalid Customer Type Entered");
+            }
+        }
+
+
 
     }
 }
