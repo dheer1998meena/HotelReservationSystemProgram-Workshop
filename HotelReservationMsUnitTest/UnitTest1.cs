@@ -75,5 +75,21 @@ namespace HotelReservationMsUnitTest
             Assert.AreEqual(expected, cheapestHotel);
 
         }
+        /// <summary>
+        /// UC4 Test case to check for correct output list of cheapest hotels based on weekdays & weekends.
+        /// </summary>
+        [TestMethod]
+        public void GivenStartandEndDates_ShouldReturn_CheapestHotels_BasedOnWeekdayAndWeekend()
+        {
+            reservation.AddHotelRecords(hotel1);
+            reservation.AddHotelRecords(hotel2);
+            var startDate = Convert.ToDateTime("11Sep2020");
+            var endDate = Convert.ToDateTime("12Sep2020");
+
+            var expected = reservation.hotelRecords["Lakewood"];
+            var result = reservation.FindCheapestHotel(startDate, endDate);
+            Assert.AreEqual(expected, result);
+
+        }
     }
 }
